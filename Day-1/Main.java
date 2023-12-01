@@ -10,7 +10,8 @@ public class Main {
             BufferedReader reader = new BufferedReader(new FileReader(args[0]));
             String line;
             while ((line = reader.readLine()) != null) {
-                res += Sol.getCalbVal2(line);
+                line = Sol.replace(line);
+                res += Sol.getCalbVal(line);
             }
             reader.close();
         } catch (IOException e) {
