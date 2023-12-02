@@ -6,11 +6,6 @@ public class Solution {
     static int MAX_G = 13;
     static int MAX_B = 14;
 
-    /*
-     * Determine which games would have been possible if the bag had been loaded
-     * with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of
-     * the IDs of those games?
-     */
     public static boolean isPossible(HashMap<Character, Integer> data) {
         for (Map.Entry<Character, Integer> entry : data.entrySet()) {
             Character key = entry.getKey();

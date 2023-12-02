@@ -36,15 +36,15 @@ public class Sol {
 
 
     public static String replace(String input) {
-        input = input.replace("one", "o 1 e");
-        input = input.replace("two", "t 2 0");
-        input = input.replace("three", "t 3 e");
-        input = input.replace("four", "f 4 r");
-        input = input.replace("five", "f 5 e");
-        input = input.replace("six", "s 6 x");
-        input = input.replace("seven", "s 7 n");
-        input = input.replace("eight", "e 8 t");
-        input = input.replace("nine", "n 9 e");
+        input = input.replace("one", "o1e");
+        input = input.replace("two", "t20");
+        input = input.replace("three", "t3e");
+        input = input.replace("four", "f4r");
+        input = input.replace("five", "f5e");
+        input = input.replace("six", "s6x");
+        input = input.replace("seven", "s7n");
+        input = input.replace("eight", "e8t");
+        input = input.replace("nine", "n9e");
         return input;
     }
 }
