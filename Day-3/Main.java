@@ -7,6 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
         int part1 = 0;
+        int part2 = 0;
         ArrayList<String> input = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader(args[0]));
@@ -17,11 +18,13 @@ public class Main {
             int[][] pInput = new int[input.get(0).length()][input.size()];
             pInput = Solution.processInput(input);
             part1 = Solution.getPartSum(pInput);
+            part2 = Solution.getGearRatioSum(pInput);
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Part 1 -> " + part1);
+        System.out.println("Part 2 -> " + part2);
     }
 
 }
