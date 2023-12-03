@@ -33,7 +33,6 @@ public class Solution {
                 res[ln][i] = n;
             }
         }
-        print(res);
         return res;
     }
 
@@ -68,6 +67,7 @@ public class Solution {
             if ((ln + 1 < pInput.length && pInput[ln + 1][i] < -1) || (ln - 1 >= 0 && pInput[ln - 1][i] < -1))
                 return true;
 
+            // check diagonally
             if ((ln + 1 < pInput.length && i + 1 < pInput[ln].length && pInput[ln + 1][i + 1] < -1) ||
                     (ln - 1 >= 0 && i - 1 >= 0 && pInput[ln - 1][i - 1] < -1) ||
                     (ln + 1 < pInput.length && i - 1 >= 0 && pInput[ln + 1][i - 1] < -1) ||
