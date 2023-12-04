@@ -14,7 +14,8 @@ public class Main {
                 input.add(line);
             }
             Solution solution = new Solution(input);
-            System.out.println(solution.calculatePoints());
+            System.out.println("Part 1 -> " + solution.calculatePoints());
+            System.out.println("Part 2 -> " + solution.getTotalNumberOfScratchCards());
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();

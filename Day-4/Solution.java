@@ -49,9 +49,39 @@ public class Solution {
                 if (this.winning_numbers.get(card_no).contains(number)) {
                     sum = count == 0 ? 1 : sum * 2;
                     count++;
-                } 
+                }
             }
             res += sum;
+        }
+        return res;
+    }
+
+    public int getNoOfMatchingNumbers(int card_no) {
+        int count = 0;
+        HashSet<Integer> numbers = this.my_numbers.get(card_no);
+        for (int number : numbers) {
+            if (this.winning_numbers.get(card_no).contains(number))
+                count++;
+        }
+        return count;
+    }
+
+    public void processScratchCards() {
+        for (int card_no : this.my_numbers.keySet()) {
+            for (int c = 0; c < this.no_of_copies.get(card_no); c++) {
+                int match_count = getNoOfMatchingNumbers(card_no);
+                for (int i = card_no + 1; i <= card_no + match_count; i++) {
+                    this.no_of_copies.put(i, this.no_of_copies.get(i)+1);
+                }
+            }
+        }
+    }
+
+    public int getTotalNumberOfScratchCards() {
+        processScratchCards();
+        int res = 0;
+        for (int card_no : this.my_numbers.keySet()) {
+            res += this.no_of_copies.get(card_no);
         }
         return res;
     }
