@@ -10,8 +10,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             String input = Files.readString(Paths.get(args[0]));
-            Solution2 solution = new Solution2(input);
-            System.out.println(solution.getLowestLocation());
+            Solution solution = new Solution(input);
         } catch (IOException e) {
             e.printStackTrace();
         }
