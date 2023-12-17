@@ -8,7 +8,6 @@ def parseInput(filename):
         for line in lines:
             if line != "":
                 line = line.replace("#", "1").replace(".", "0")
-                # Copilot, convert each char to in before appending to list
                 temp_list.append(list(line))
             else:
                 rows.append(temp_list)
@@ -41,7 +40,6 @@ def getAbove(item, part):
         below = item[r:]
         n = len(above) if len(above) < len(below) else len(below)
         if part == 2:
-            # x, y ->  '110000001', '110000001'
             sum = 0
             for x, y in zip(above[:n], below[:n]):
                 # a, b -> '1', '1'
