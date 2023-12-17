@@ -55,9 +55,6 @@ def getSum(item, multiplier):
 
     return start_i*multiplier
 
-        
-
-
 rows, cols, nInputs = parseInput('input.txt')
 
 print(rows)
@@ -68,4 +65,21 @@ for i in range(nInputs):
 
 print(res)
 
-    
+def getSum():
+    res = 0
+    for i in range(nInputs):
+        res += getSum(rows[i], 100) + getSum(cols[i], 1)
+    return res
+
+
+def getSum():
+    res = 0
+    for i in range(nInputs):
+        res += getSum(rows[i], 100) + getSum(cols[i], 1)
+    return res
+
+def getSum():
+    res = 0
+    for i in range(nInputs):
+        res += getSum(rows[i], 100) + getSum(cols[i], 1)
+    return res
