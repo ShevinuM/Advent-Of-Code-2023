@@ -4,7 +4,12 @@ def parseInput(filename):
     return input, transposed
 
 
-def tilt(input, transposed):
+def tilt(input, dir):
+    if dir == "n" or dir == "s":
+        transposed = list(map(list, zip(*input)))
+    else:
+        transposed = input
+
     for i in range(len(transposed)):
         l = 0
         while transposed[i][l] == "#":
@@ -15,11 +20,23 @@ def tilt(input, transposed):
             if r == len(transposed[i]) or transposed[i][r] == "#":
                 for j in range(r - l):
                     if j < c:
-                        transposed[i][l + j] = "O"
+                        if dir == "n" or dir == "w":
+                            transposed[i][l + j] = "O"
+                        else:
+                            transposed[i][r - j - 1] = "O"
                     else:
-                        transposed[i][l + j] = (
-                            "." if transposed[i][l + j] == "O" else transposed[i][l + j]
-                        )
+                        if dir == "n" or dir == "w":
+                            transposed[i][l + j] = (
+                                "."
+                                if transposed[i][l + j] == "O"
+                                else transposed[i][l + j]
+                            )
+                        else:
+                            transposed[i][r - j - 1] = (
+                                "."
+                                if transposed[i][r - j - 1] == "O"
+                                else transposed[i][r - j - 1]
+                            )
                 if r >= len(transposed[i]) - 1:
                     break
                 else:
@@ -34,7 +51,10 @@ def tilt(input, transposed):
                 if transposed[i][r] == "O":
                     c += 1
                 r += 1
-    return list(map(list, zip(*transposed)))[::-1]
+    if dir == "n" or dir == "s":
+        transposed = list(map(list, zip(*transposed)))
+
+    return transposed
 
 
 def calcLoad(input):
@@ -42,10 +62,47 @@ def calcLoad(input):
     for r in range(len(input)):
         for c in range(len(input[r])):
             if input[r][c] == "O":
-                load += r + 1
+                load += len(input) - r
     return load
 
 
+def split_array_on_value(arr, value):
+    result = []
+    current_subarray = []
+
+    for item in arr:
+        if item == value and current_subarray:
+            result.append(current_subarray)
+            current_subarray = []
+        current_subarray.append(item)
+
+    if current_subarray:
+        result.append(current_subarray)
+
+    return result
+
+
+# Part 1
+cache = {}
 input, transposed = parseInput("input.txt")
-tilted_input = tilt(input, transposed)
-print(calcLoad(tilted_input))
+
+tilted_input = tilt(input, "n")
+print("Part 1 -> ", calcLoad(tilted_input))
+
+dic = {}
+cycle = []
+for c in range(1000):
+    for d in ["n", "w", "s", "e"]:
+        tilted = tilt(input, d)
+        input = tilted
+    if (str(input)) in dic:
+        cycle.append(calcLoad(input))
+        continue
+    else:
+        dic[str(input)] = calcLoad(input)
+        cycle.append(calcLoad(input))
+split_arr = split_array_on_value(cycle, 93182)
+pattern_length = len(split_arr[1])
+v = 1000000000 - len(split_arr[0])
+position = v % pattern_length
+print("Part 2 -> ", split_arr[1][position - 1])
