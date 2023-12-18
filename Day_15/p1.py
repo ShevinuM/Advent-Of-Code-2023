@@ -1,8 +1,8 @@
 def parseInput(filename):
-    # Copilot, how do i read a single line file and split into a list by comma
-    with open(filename, 'r') as f:
-        pInput = [list(entry) for entry in f.read().replace("\n", "").split(',')]
+    with open(filename, "r") as f:
+        pInput = [list(entry) for entry in f.read().replace("\n", "").split(",")]
         return pInput
+
 
 def solve(pInput):
     res = 0
@@ -16,5 +16,6 @@ def solve(pInput):
         res += curr
     return res
 
-pInput = parseInput('input.txt')
+
+pInput = parseInput("input.txt")
 print(solve(pInput))
