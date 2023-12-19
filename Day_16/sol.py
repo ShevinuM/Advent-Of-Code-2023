@@ -83,21 +83,41 @@ def getNextCoords(dir, y, x):
     return ret
 
 
-dq = deque()
-dq.append((">", 0, 0))
-visited_states = set()
-visited_locs = set()
-while dq:
-    item = dq.popleft()
-    if item in visited_states:
-        continue
-    dir = item[0]
-    y = item[1]
-    x = item[2]
-    visited_states.add(item)
-    visited_locs.add((y, x))
-    successors = getNextCoords(dir, y, x)
-    for s in successors:
-        dq.append(s)
+def bfs(dir, y, x):
+    dq = deque()
+    dq.append((dir, y, x))
+    visited_states = set()
+    visited_locs = set()
+    while dq:
+        item = dq.popleft()
+        if item in visited_states:
+            continue
+        dir = item[0]
+        y = item[1]
+        x = item[2]
+        visited_states.add(item)
+        visited_locs.add((y, x))
+        successors = getNextCoords(dir, y, x)
+        for s in successors:
+            dq.append(s)
+    return len(visited_locs)
 
-print(len(visited_locs))
+
+# Part 1
+print(bfs(">", 0, 0))
+
+# Part 2
+max = 0
+for x in range(len(pInput[0])):
+    for y in [0, len(pInput) - 1]:
+        dir = "V" if y == 0 else "A"
+        curr = bfs(dir, y, x)
+        max = curr if curr > max else max
+
+for y in range(len(pInput)):
+    for x in [0, len(pInput[0]) - 1]:
+        dir = ">" if x == 0 else "<"
+        curr = bfs(dir, y, x)
+        max = curr if curr > max else max
+
+print(max)
