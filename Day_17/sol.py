@@ -50,10 +50,7 @@ def expand(node):
 def ucs():
     closed = set()
     open = []
-    heappush(open, (0, 0, 0, ">", 1))
-    heappush(open, (0, 0, 0, "V", 1))
-    heappush(open, (0, 0, 0, "<", 1))
-    heappush(open, (0, 0, 0, "A", 1))
+    heappush(open, (0, 0, 0, ">", 0))
 
     while open:
         node = heappop(open)
