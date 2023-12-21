@@ -66,7 +66,9 @@ def solve(map):
         print(dir, steps)
         if dir == "R":
             if pointer[1] + steps >= len(map[pointer[0]]):
-                map = readjustMap(map, "rr", pointer[1] + steps - len(map[pointer[0]]) + 1)
+                map = readjustMap(
+                    map, "rr", pointer[1] + steps - len(map[pointer[0]]) + 1
+                )
             for _ in range(steps):
                 pointer[1] = pointer[1] + 1
                 map[pointer[0]][pointer[1]] = 1

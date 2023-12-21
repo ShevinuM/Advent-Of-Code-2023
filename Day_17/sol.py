@@ -1,13 +1,11 @@
 from heapq import heappush, heappop
 
-pInput = [
-    [int(char) for char in list(line.strip())]
-    for line in open("input.txt", "r")
-]
+pInput = [[int(char) for char in list(line.strip())] for line in open("input.txt", "r")]
 width, height = len(pInput[0]), len(pInput)
 
 MAX_STEPS = 3
 MIN_STEPS = 0
+
 
 def maxStepsReached(steps):
     return steps > MAX_STEPS
@@ -29,6 +27,7 @@ def expand_helper(node, dy, dx, dir, res):
         res.append((node[0] + pInput[new_y][new_x], new_y, new_x, dir, 1))
         return res
     return res
+
 
 def expand(node):
     res = []
@@ -54,7 +53,11 @@ def ucs():
 
     while open:
         node = heappop(open)
-        if node[1] == height - 1 and node[2] == width - 1 and (MIN_STEPS <= node[4] <= MAX_STEPS ):
+        if (
+            node[1] == height - 1
+            and node[2] == width - 1
+            and (MIN_STEPS <= node[4] <= MAX_STEPS)
+        ):
             return node[0]
         if (node[1], node[2], node[3], node[4]) in closed:
             continue
@@ -64,6 +67,7 @@ def ucs():
             heappush(open, successors[i])
 
     return -1
+
 
 # Part 1
 print("Part 1 -> ", ucs())
