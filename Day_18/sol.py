@@ -1,6 +1,6 @@
 pInput = [
     (line.strip().split(" ")[0], int(line.strip().split(" ")[1]))
-    for line in open("test_input.txt", "r")
+    for line in open("input.txt", "r")
 ]
 
 
@@ -18,7 +18,7 @@ def readjustMap(map, option, offset):
             map.insert(0, [0] * len(map[0]))
     elif option == "cd":
         for _ in range(offset):
-            map.append([0] * len(map))
+            map.append([0] * len(map[0]))
     else:
         raise ValueError("Something is wrong. Wrong option number")
     return map
@@ -60,38 +60,41 @@ def computeSectors():
                 map[vy][vx] = sector_no
 
 
-def solve(map):
+def solve(pMap):
     pointer = [0, 0]
     for dir, steps in pInput:
         print(dir, steps)
         if dir == "R":
-            if pointer[1] + steps >= len(map[pointer[0]]):
-                map = readjustMap(
-                    map, "rr", pointer[1] + steps - len(map[pointer[0]]) + 1
+            if pointer[1] + steps >= len(pMap[pointer[0]]):
+                pMap = readjustMap(
+                    pMap, "rr", pointer[1] + steps - len(pMap[pointer[0]]) + 1
                 )
             for _ in range(steps):
                 pointer[1] = pointer[1] + 1
-                map[pointer[0]][pointer[1]] = 1
+                pMap[pointer[0]][pointer[1]] = 1
         elif dir == "L":
             if pointer[1] - steps < 0:
-                map = readjustMap(map, "rl", 0 - (pointer[1] - steps))
+                pMap = readjustMap(pMap, "rl", 0 - (pointer[1] - steps))
             for _ in range(steps):
                 pointer[1] = pointer[1] - 1
-                map[pointer[0]][pointer[1]] = 1
+                pMap[pointer[0]][pointer[1]] = 1
         elif dir == "U":
             if pointer[0] - steps < 0:
-                map = readjustMap(map, "cu", 0 - (pointer[0] - steps))
+                pMap = readjustMap(pMap, "cu", 0 - (pointer[0] - steps))
             for _ in range(steps):
                 pointer[0] = pointer[0] - 1
-                map[pointer[0]][pointer[1]] = 1
+                pMap[pointer[0]][pointer[1]] = 1
         elif dir == "D":
-            if pointer[0] + steps > len(map):
-                map = readjustMap(map, "cd", pointer[0] + steps - len(map))
+            if pointer[0] + steps > len(pMap):
+                pMap = readjustMap(pMap, "cd", pointer[0] + steps - len(pMap) + 1)
             for _ in range(steps):
                 pointer[0] = pointer[0] + 1
-                map[pointer[0]][pointer[1]] = 1
+                pMap[pointer[0]][pointer[1]] = 1
 
-    print(map)
+    with open('final_map.txt', 'w') as f:
+        for row in pMap:
+            line = ''.join(map(str, row))
+            f.write(line + '\n')
     # computeSectors()
 
 
