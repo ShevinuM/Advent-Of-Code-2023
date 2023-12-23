@@ -23,12 +23,11 @@ def readjustMap(map, option, offset):
         raise ValueError("Something is wrong. Wrong option number")
     return map
 
-
-def isOOB(y, x):
+def isOOB(y, x, map):
     return not (0 <= y < len(map) and 0 <= x < len(map[0]))
 
 
-def cardinalBFS(y, x):
+def cardinalBFS(y, x, pmap):
     closed = set()
     open = [(y, x)]
     while True:
@@ -41,29 +40,18 @@ def cardinalBFS(y, x):
         closed.add((coord[0], coord[1]))
         for next in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             if (
-                not isOOB(coord[0], coord[1])
-                and map[coord[0] + next[0]][coord[1] + next[1]]
-                == map[coord[0]][coord[1]]
+                not isOOB(coord[0] + next[0], coord[1] + next[1], pmap)
+                and pmap[coord[0] + next[0]][coord[1] + next[1]]
+                == pmap[coord[0]][coord[1]]
             ):
                 open.append((coord[0] + next[0], coord[1] + next[1]))
 
 
-def computeSectors():
-    sector_no = 1
-    for y in range(len(map)):
-        for x in range(len(map[0])):
-            if map[y][x] != 0:
-                continue
-            sector_no += 1
-            visited_coords = cardinalBFS(y, x)
-            for vy, vx in visited_coords:
-                map[vy][vx] = sector_no
-
+ 
 
 def solve(pMap):
     pointer = [0, 0]
     for dir, steps in pInput:
-        print(dir, steps)
         if dir == "R":
             if pointer[1] + steps >= len(pMap[pointer[0]]):
                 pMap = readjustMap(
@@ -90,13 +78,31 @@ def solve(pMap):
             for _ in range(steps):
                 pointer[0] = pointer[0] + 1
                 pMap[pointer[0]][pointer[1]] = 1
+    
+   
+    pMap.append([0] * len(pMap[0]))
+    pMap.insert(0, [0] * len(pMap[0]))
+    for i, row in enumerate(pMap):
+        pMap[i].append(0)
+        pMap[i].insert(0, 0)
 
-    with open('final_map.txt', 'w') as f:
+    start = (0, 0)
+    closed = cardinalBFS(0, 0, pMap)
+    
+    for y, x in closed:
+        pMap[y][x] = 2
+
+    with open('final_map.txt', 'w' ) as f:
         for row in pMap:
-            line = ''.join(map(str, row))
-            f.write(line + '\n')
-    # computeSectors()
+            f.write(''.join([str(x) for x in row]) + '\n')
 
 
-print(pInput)
-solve([[0]])
+    res = 0
+    for row in pMap:
+        res += row.count(1)
+        res += row.count(0)
+    
+    return res
+    
+
+print(solve([[0]]))

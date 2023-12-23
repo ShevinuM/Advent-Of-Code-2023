@@ -11,6 +11,9 @@
 
 from collections import deque
 
+def printMap(input):
+    for y, row in enumerate(input):
+        print(''.join(row))
 
 def findStart(pInput):
     for y, row in enumerate(pInput):
@@ -52,7 +55,7 @@ def changeStart(sY, sX, pInput):
 def get1D(y, x, height): return y * height + x
 
 
-pInput = [list(line.replace("\n", "")) for line in open("test_input_3.txt", "r")]
+pInput = [list(line.replace("\n", "")) for line in open("test_input_4.txt", "r")]
 
 sY, sX = findStart(pInput)
 
@@ -118,7 +121,16 @@ while dq:
 
 print(max-1)
 
-print(pInput)
+
+# Part 2
+for y, row in enumerate(pInput):
+    for x, item in enumerate(row):
+        hash = get1D(y, x, h)
+        if hash in visited:
+            pInput[y][x] = '#'
+
+
+printMap(pInput)
 
 
     
