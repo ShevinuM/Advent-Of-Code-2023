@@ -1,7 +1,3 @@
-import sys
-
-sys.setrecursionlimit(2500)
-
 pInput = [list(line.strip()) for line in open("input.txt")]
 
 w, h = len(pInput[0]), len(pInput)
@@ -9,6 +5,11 @@ w, h = len(pInput[0]), len(pInput)
 start = (0, pInput[0].index("."))
 end = (h - 1, pInput[-1].index("."))
 dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
+
+def printGraph(graph):
+    for node in graph:
+        print(node, graph[node])
 
 
 def isOOB(y, x):
@@ -37,18 +38,79 @@ def expand(y, x, steps):
     return res
 
 
-def DFS(y, x, steps, closed, max_steps):
-    if (y, x) == end:
-        return steps
-    if (y, x) in closed:
-        return
-    closed.add((y, x))
-    if (y, x) != end:
-        successors = expand(y, x, steps)
-        for newY, newX, newSteps in successors:
-            s = DFS(newY, newX, newSteps, closed.copy(), max_steps)
-            max_steps = s if s is not None and s > max_steps else max_steps
-    return max_steps
+graph = {}
 
 
-print(DFS(start[0], start[1], 0, set(), -1))
+def formGraph():
+    nodes = set()
+    nodes.add(start)
+    nodes.add(end)
+
+    for y, row in enumerate(pInput):
+        for x, element in enumerate(row):
+            neigh = 0
+            for dy, dx in dirs:
+                nY = y + dy
+                nX = x + dx
+                if not isOOB(nY, nX) and element != "#" and pInput[nY][nX] != "#":
+                    neigh += 1
+            if neigh > 2:
+                nodes.add((y, x))
+
+    adj_list = {node: {} for node in nodes}
+
+    for sy, sx in nodes:
+        open = [(sy, sx, 0)]
+        closed = set()
+
+        while open:
+            y, x, s = open.pop()
+            if (y, x) in closed:
+                continue
+            closed.add((y, x))
+            if s != 0 and (y, x) in nodes:
+                adj_list[(sy, sx)][(y, x)] = s
+                continue
+            successors = expand(y, x, s)
+            for ny, nx, ns in successors:
+                open.append((ny, nx, ns))
+
+    return adj_list
+
+
+closed = set()
+
+
+def dfs(node):
+    if node == end:
+        return 0
+
+    m = -float("inf")
+
+    closed.add(node)
+    for e in graph[node]:
+        if e not in closed:
+            m = max(m, dfs(e) + graph[node][e])
+    closed.remove(node)
+
+    return m
+
+
+# Part 1
+graph = formGraph()
+print("Part 1 -> ", dfs(start))
+
+
+# Part 2
+pInput = [
+    list(
+        line.strip()
+        .replace(">", ".")
+        .replace("<", ".")
+        .replace("^", ".")
+        .replace("v", ".")
+    )
+    for line in open("input.txt")
+]
+graph = formGraph()
+print("Part 2 -> ", dfs(start))
